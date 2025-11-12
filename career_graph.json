@@ -1,0 +1,1331 @@
+{
+  "nodes": [
+    {
+      "id": "user-start",
+      "type": "input",
+      "data": {
+        "label": "Ryan Tran",
+        "type": "user",
+        "faculty": "Computer Science (BSc)",
+        "year": "2",
+        "interests": "Artificial Intelligence & Machine Learning: Loves experimenting with LLMs, transformers, RAG systems, and reinforcement learning. Constantly recreates small research papers on Kaggle or Colab.\r\n\r\nSoftware Engineering: Enjoys building scalable full-stack web apps using React, Node.js, Express, and Supabase. Has built several personal projects like a task automation bot and personal note indexer.\r\n\r\nCompetitive Programming: Practices LeetCode, Codeforces, and ICPC problems daily. Passionate about algorithm design and data structures.\r\n\r\nCloud Computing: Curious about AWS, Kubernetes, serverless architectures, CI/CD pipelines, and infrastructure automation.\r\n\r\nSystems Programming: Interested in C++, Rust, OS design, and performance optimization. Reads blog posts about compilers, memory management, and backend architecture.\r\n\r\nHackathons: Regular participant in UBC hackathons, nwHacks, and global online hackathons. Loves rapid prototyping and collaborating with other engineers.\r\n\r\nTech Community: Active member of UBC CSSS events, tech meetups, and startup pitch nights. Enjoys mentoring first-years on how to start learning CS.\r\n\r\nHobbies:\r\n\r\nCreating devlogs on YouTube or Medium\r\n\r\nPlaying piano / producing music\r\n\r\nGaming (Valorant, Elden Ring)\r\n\r\nWorking out to stay focused",
+        "timeline": "First goal: build 3 standout ML projects within 6 months  Next: join a research group or internship by next summer  Graduate with research + large industry experience"
+      },
+      "position": {
+        "x": 100,
+        "y": 300
+      },
+      "style": {
+        "background": "#667eea",
+        "color": "white",
+        "border": "2px solid #764ba2",
+        "borderRadius": "12px",
+        "padding": "20px",
+        "width": 250
+      }
+    },
+    {
+      "id": "stage-foundation_building",
+      "type": "default",
+      "data": {
+        "label": "Foundation Building",
+        "description": "Establish a strong foundation in AI and machine learning concepts, programming skills, and research methodologies. Attend workshops, reading groups, and info sessions to gain a broad understanding of the field.",
+        "type": "stage",
+        "stageIndex": 1,
+        "totalStages": 5
+      },
+      "position": {
+        "x": 600,
+        "y": 100
+      },
+      "style": {
+        "background": "#f7fafc",
+        "border": "2px solid #e2e8f0",
+        "borderRadius": "8px",
+        "padding": "15px",
+        "minWidth": 400,
+        "fontSize": "14px"
+      }
+    },
+    {
+      "id": "event-30",
+      "type": "default",
+      "data": {
+        "label": "AI Safety Technical Reading Group - Control",
+        "type": "event",
+        "eventId": 30,
+        "category": "Reading Group",
+        "description": "Dive into the latest research on AI safety and control systems in this technical reading group. Discuss cutting-edge papers and explore the challenges of ensuring advanced AI systems remain aligned with human values.",
+        "startDate": "Dec 03, 2025 05:00 PM",
+        "endDate": "Dec 03, 2025 07:00 PM",
+        "tags": [
+          "AI",
+          "machine learning",
+          "artificial intelligence",
+          "control systems",
+          "safety",
+          "research",
+          "technical reading"
+        ],
+        "skills": [
+          "critical analysis of technical papers",
+          "research synthesis and discussion",
+          "understanding AI safety and control challenges",
+          "staying up-to-date with the latest AI research"
+        ],
+        "whyAttend": "Gain insights into the forefront of AI safety research, network with like-minded peers, and develop critical thinking skills that are highly valued in technical fields. This is an excellent opportunity to explore the societal implications of advanced AI systems and contribute to ensuring their safe and ethical deployment.",
+        "careerRelevance": "This event will help students develop essential skills for careers in AI research, development, and policy. Engaging with the latest technical literature and discussions will prepare students for graduate studies or industry roles in the AI field.",
+        "isMustAttend": true,
+        "similarity": 0.3235
+      },
+      "position": {
+        "x": 600,
+        "y": 250
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-16",
+      "type": "default",
+      "data": {
+        "label": "AI Safety Technical Reading Group - Scalable Oversight",
+        "type": "event",
+        "eventId": 16,
+        "category": "Reading Group",
+        "description": "Explore the latest research and techniques in AI safety and scalable oversight. Discuss technical papers and engage with experts in this critical area of AI development.",
+        "startDate": "Nov 19, 2025 05:00 PM",
+        "endDate": "Nov 19, 2025 07:00 PM",
+        "tags": [
+          "AI safety",
+          "machine learning",
+          "technical reading",
+          "research",
+          "oversight"
+        ],
+        "skills": [
+          "critical analysis of technical papers",
+          "understanding AI safety challenges",
+          "engaging in interdisciplinary discussions",
+          "staying up-to-date with the latest AI research"
+        ],
+        "whyAttend": "Gain insights into the cutting edge of AI safety research, network with like-minded peers and experts, and develop skills that are highly valuable in the tech industry and beyond.",
+        "careerRelevance": "This event provides an opportunity for students to deepen their understanding of AI safety, a rapidly growing field with significant career prospects in research, technology, and policy development.",
+        "isMustAttend": true,
+        "similarity": 0.3199
+      },
+      "position": {
+        "x": 600,
+        "y": 450
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-32",
+      "type": "default",
+      "data": {
+        "label": "AI Safety Technical Reading Group - Constitutional AI",
+        "type": "event",
+        "eventId": 32,
+        "category": "Reading Group",
+        "description": "Join the AI Safety Technical Reading Group to discuss the latest research and developments in Constitutional AI, a novel approach to AI alignment that aims to create AI systems with robust and stable goals aligned with human values.",
+        "startDate": "Dec 17, 2025 05:00 PM",
+        "endDate": "Dec 17, 2025 07:00 PM",
+        "tags": [
+          "AI",
+          "machine learning",
+          "artificial intelligence",
+          "research",
+          "reading group",
+          "technical",
+          "constitutional AI"
+        ],
+        "skills": [
+          "critical analysis of technical AI research",
+          "understanding of AI safety and alignment concepts",
+          "engaging in academic discussions on emerging AI topics",
+          "networking with peers interested in AI"
+        ],
+        "whyAttend": "This is an excellent opportunity to dive deep into the technical aspects of Constitutional AI, engage in thought-provoking discussions with your peers, and build connections with others who share your interest in the responsible development of AI systems.",
+        "careerRelevance": "Attending this event will help UBC students stay up-to-date with the latest developments in AI safety and alignment, a rapidly growing field with significant career opportunities in research, industry, and policy.",
+        "isMustAttend": false,
+        "similarity": 0.3089
+      },
+      "position": {
+        "x": 600,
+        "y": 650
+      },
+      "style": {
+        "background": "white",
+        "border": "2px solid #cbd5e0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-35",
+      "type": "default",
+      "data": {
+        "label": "Fireside Insights: Navigating the Landscape of Artificial Intelligence",
+        "type": "event",
+        "eventId": 35,
+        "category": "Talk",
+        "description": "Gain insights into the rapidly evolving field of artificial intelligence (AI) and explore the latest trends, challenges, and opportunities in this dynamic industry. Hear from expert speakers and engage in thought-provoking discussions on the future of AI and its impact on various sectors.",
+        "startDate": "Oct 09, 2025 05:00 PM",
+        "endDate": "Oct 09, 2025 06:15 PM",
+        "tags": [
+          "artificial intelligence",
+          "machine learning",
+          "technology",
+          "innovation",
+          "career development"
+        ],
+        "skills": [
+          "critical thinking",
+          "problem-solving",
+          "industry awareness",
+          "networking",
+          "career planning"
+        ],
+        "whyAttend": "Attend this event to gain a deeper understanding of the AI landscape, network with industry professionals, and explore potential career opportunities in this exciting and rapidly growing sector. This is a unique opportunity to learn from experts and position yourself for success in the dynamic world of artificial intelligence.",
+        "careerRelevance": "This event provides UBC students with valuable insights into the AI industry, helping them stay informed about the latest trends and prepare for potential career paths in this rapidly evolving field.",
+        "isMustAttend": true,
+        "similarity": 0.3663
+      },
+      "position": {
+        "x": 600,
+        "y": 850
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-17",
+      "type": "default",
+      "data": {
+        "label": "TikTok @ UBC Info Session: Unlock Your Leadership Potential",
+        "type": "event",
+        "eventId": 17,
+        "category": "Info Session",
+        "description": "Explore opportunities to develop your leadership skills and gain valuable experience through TikTok's full-time and summer internship programs. Connect with TikTok representatives and learn about the company's unique culture and career paths.",
+        "startDate": "Nov 19, 2025 05:00 PM",
+        "endDate": "Nov 19, 2025 06:00 PM",
+        "tags": [
+          "TikTok",
+          "Internship",
+          "Leadership",
+          "Career Development",
+          "Tech Industry"
+        ],
+        "skills": [
+          "Leadership",
+          "Communication",
+          "Problem-Solving",
+          "Teamwork",
+          "Creativity"
+        ],
+        "whyAttend": "This is an excellent opportunity to learn about TikTok's unique culture and explore potential career opportunities that can help you unlock your leadership potential. Engage with TikTok representatives, ask questions, and gain insights that can inform your future career decisions.",
+        "careerRelevance": "This event provides UBC students with the chance to learn about the diverse career paths and internship opportunities available at TikTok, a leading social media platform. Attending can help students develop valuable skills, build their professional network, and gain insights into the tech industry.",
+        "isMustAttend": false,
+        "similarity": 0.2132
+      },
+      "position": {
+        "x": 600,
+        "y": 1050
+      },
+      "style": {
+        "background": "white",
+        "border": "2px solid #cbd5e0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "stage-skill_development",
+      "type": "default",
+      "data": {
+        "label": "Skill Development",
+        "description": "Develop specialized skills in areas like natural language processing, computer vision, and reinforcement learning. Participate in hackathons, coding competitions, and research projects to apply your knowledge and build a portfolio.",
+        "type": "stage",
+        "stageIndex": 2,
+        "totalStages": 5
+      },
+      "position": {
+        "x": 1100,
+        "y": 100
+      },
+      "style": {
+        "background": "#f7fafc",
+        "border": "2px solid #e2e8f0",
+        "borderRadius": "8px",
+        "padding": "15px",
+        "minWidth": 400,
+        "fontSize": "14px"
+      }
+    },
+    {
+      "id": "event-19",
+      "type": "default",
+      "data": {
+        "label": "UBC BizTech KickStart Startup Competition",
+        "type": "event",
+        "eventId": 19,
+        "category": "Competition",
+        "description": "The UBC BizTech KickStart Startup Competition is a week-long event that challenges students to develop innovative business solutions and entrepreneurial skills. Participants will work in teams to ideate, prototype, and pitch their startup ideas to a panel of industry experts.",
+        "startDate": "Nov 19, 2025 12:00 AM",
+        "endDate": "Nov 26, 2025 11:59 PM",
+        "tags": [
+          "entrepreneurship",
+          "innovation",
+          "startup",
+          "technology",
+          "business",
+          "pitching",
+          "teamwork",
+          "problem-solving"
+        ],
+        "skills": [
+          "ideation",
+          "prototyping",
+          "pitching",
+          "teamwork",
+          "problem-solving",
+          "critical thinking"
+        ],
+        "whyAttend": "The UBC BizTech KickStart Startup Competition offers a unique opportunity to develop entrepreneurial skills, build a network, and potentially launch a new venture. Participants will receive mentorship from industry experts and have the chance to win prizes to support their startup ideas.",
+        "careerRelevance": "This event provides valuable experience in entrepreneurship, teamwork, and presenting ideas, which are highly sought-after skills in a wide range of careers. Participants will have the opportunity to network with industry professionals and gain exposure to the startup ecosystem.",
+        "isMustAttend": true,
+        "similarity": 0.2367
+      },
+      "position": {
+        "x": 1100,
+        "y": 250
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-8",
+      "type": "default",
+      "data": {
+        "label": "AI & the Future of Medicine: Bridging AI Innovation and Health Equity",
+        "type": "event",
+        "eventId": 8,
+        "category": "Conference",
+        "description": "Explore the intersection of artificial intelligence and healthcare at this 1.5-day conference. Discover how AI is transforming medical research, diagnosis, and treatment, while also addressing issues of health equity and accessibility.",
+        "startDate": "Nov 15, 2025 12:00 AM",
+        "endDate": "Nov 16, 2025 11:59 PM",
+        "tags": [
+          "artificial intelligence",
+          "healthcare",
+          "medical technology",
+          "health equity",
+          "innovation",
+          "research"
+        ],
+        "skills": [
+          "understanding of AI applications in healthcare",
+          "critical analysis of the ethical and social implications of AI in medicine",
+          "networking with industry professionals and researchers",
+          "interdisciplinary collaboration skills"
+        ],
+        "whyAttend": "Gain a comprehensive understanding of the current and future role of AI in the medical field, while also exploring ways to ensure that these advancements benefit all members of the community. Connect with industry leaders and researchers to build your professional network and explore potential internship or career opportunities.",
+        "careerRelevance": "This event provides valuable insights and networking opportunities for UBC students interested in careers in medical technology, healthcare policy, or research at the intersection of AI and medicine.",
+        "isMustAttend": true,
+        "similarity": 0.2989
+      },
+      "position": {
+        "x": 1100,
+        "y": 450
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-1",
+      "type": "default",
+      "data": {
+        "label": "Challenges, changes, and research: Insights from UBC's University Killam Professors",
+        "type": "event",
+        "eventId": 1,
+        "category": "Talk",
+        "description": "Hear from UBC's renowned University Killam Professors as they share insights on the challenges, changes, and cutting-edge research shaping their fields. Gain valuable perspectives on navigating academic and professional landscapes.",
+        "startDate": "Nov 12, 2025 12:00 AM",
+        "endDate": null,
+        "tags": [
+          "research",
+          "academia",
+          "career development",
+          "interdisciplinary",
+          "innovation"
+        ],
+        "skills": [
+          "critical thinking",
+          "interdisciplinary problem-solving",
+          "research communication",
+          "navigating academic and professional pathways"
+        ],
+        "whyAttend": "Attend this event to be inspired by the innovative work of UBC's top researchers, network with faculty and peers, and discover new perspectives that can enhance your academic and career aspirations.",
+        "careerRelevance": "This event offers UBC students an opportunity to learn from experienced researchers and scholars, gaining valuable insights that can inform their own academic and professional journeys.",
+        "isMustAttend": false,
+        "similarity": 0.2225
+      },
+      "position": {
+        "x": 1100,
+        "y": 650
+      },
+      "style": {
+        "background": "white",
+        "border": "2px solid #cbd5e0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "stage-networking",
+      "type": "default",
+      "data": {
+        "label": "Networking",
+        "description": "Build connections with industry professionals, researchers, and fellow students. Attend career fairs, info sessions, and social events to expand your network and learn about potential internship and job opportunities.",
+        "type": "stage",
+        "stageIndex": 3,
+        "totalStages": 5
+      },
+      "position": {
+        "x": 1600,
+        "y": 100
+      },
+      "style": {
+        "background": "#f7fafc",
+        "border": "2px solid #e2e8f0",
+        "borderRadius": "8px",
+        "padding": "15px",
+        "minWidth": 400,
+        "fontSize": "14px"
+      }
+    },
+    {
+      "id": "event-3",
+      "type": "default",
+      "data": {
+        "label": "Tech Speed Mentoring with Women in Communications and Technology (WCT BC)",
+        "type": "event",
+        "eventId": 3,
+        "category": "Mentoring",
+        "description": "Engage with women leaders in the tech and communications industries through one-on-one speed mentoring sessions. Gain valuable career insights and build your professional network.",
+        "startDate": "Nov 12, 2025 05:30 PM",
+        "endDate": "Nov 12, 2025 07:00 PM",
+        "tags": [
+          "mentorship",
+          "women in tech",
+          "communications",
+          "career development",
+          "networking"
+        ],
+        "skills": [
+          "career planning",
+          "networking",
+          "communication",
+          "industry knowledge",
+          "mentorship"
+        ],
+        "whyAttend": "Attendees will have the chance to learn from and connect with successful women leaders, expanding their professional network and gaining valuable insights to support their career development. This event is a unique chance to explore different industry paths and receive tailored advice.",
+        "careerRelevance": "This event provides an opportunity for UBC students to receive personalized career guidance from experienced women in the tech and communications fields, helping to inform their academic and professional paths.",
+        "isMustAttend": true,
+        "similarity": 0.1924
+      },
+      "position": {
+        "x": 1600,
+        "y": 250
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-14",
+      "type": "default",
+      "data": {
+        "label": "AccessCS: Social + Sushi + Origami Night! (RSVP by Nov 18)",
+        "type": "event",
+        "eventId": 14,
+        "category": "Social",
+        "description": "Join the AccessCS community for a fun social evening of sushi, origami, and networking. Connect with fellow CS students, learn a new craft, and enjoy delicious food in a relaxed setting.",
+        "startDate": "Nov 20, 2025 05:00 PM",
+        "endDate": "Nov 20, 2025 07:00 PM",
+        "tags": [
+          "computer science",
+          "networking",
+          "social",
+          "origami",
+          "sushi"
+        ],
+        "skills": [
+          "origami",
+          "communication",
+          "problem-solving",
+          "creativity"
+        ],
+        "whyAttend": "This is a unique chance to step away from your studies, learn a new craft, and engage with the AccessCS community. You'll leave with new friends, skills, and a refreshed perspective to support your academic and professional growth.",
+        "careerRelevance": "This event provides an opportunity to network with peers, practice communication skills, and explore creative hobbies that can complement your computer science studies and career.",
+        "isMustAttend": true,
+        "similarity": 0.219
+      },
+      "position": {
+        "x": 1600,
+        "y": 450
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-13",
+      "type": "default",
+      "data": {
+        "label": "WICS x SAP: Day in the Life Panel & Office Tour",
+        "type": "event",
+        "eventId": 13,
+        "category": "Panel / Tour",
+        "description": "Explore the day-to-day life of SAP employees and gain insights into the company's culture and work environment through this exclusive panel discussion and office tour.",
+        "startDate": "Nov 18, 2025 03:00 PM",
+        "endDate": "Nov 18, 2025 06:00 PM",
+        "tags": [
+          "career exploration",
+          "technology industry",
+          "professional development",
+          "networking",
+          "software engineering"
+        ],
+        "skills": [
+          "industry knowledge",
+          "networking",
+          "workplace culture",
+          "professional communication"
+        ],
+        "whyAttend": "Gain first-hand experience of the SAP work environment, learn from industry professionals, and expand your professional network - all of which can significantly contribute to your career development.",
+        "careerRelevance": "This event provides valuable insights into the technology industry and can help UBC students make informed decisions about their career paths and explore potential job opportunities.",
+        "isMustAttend": false,
+        "similarity": 0.1855
+      },
+      "position": {
+        "x": 1600,
+        "y": 650
+      },
+      "style": {
+        "background": "white",
+        "border": "2px solid #cbd5e0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-18",
+      "type": "default",
+      "data": {
+        "label": "Employer On-Campus: Recruitment of Policy Leaders Program (Government of Canada)",
+        "type": "event",
+        "eventId": 18,
+        "category": "Info Session",
+        "description": "Interested in a career in public policy and government? Attend this info session to learn about the Government of Canada's Recruitment of Policy Leaders Program, which offers a unique opportunity to develop your policy skills and contribute to the public sector.",
+        "startDate": "Nov 19, 2025 06:00 PM",
+        "endDate": "Nov 19, 2025 07:00 PM",
+        "tags": [
+          "public policy",
+          "government",
+          "career opportunities",
+          "policy development",
+          "leadership"
+        ],
+        "skills": [
+          "policy analysis",
+          "strategic thinking",
+          "communication",
+          "project management",
+          "teamwork"
+        ],
+        "whyAttend": "Gain first-hand information about the Recruitment of Policy Leaders Program, network with government representatives, and learn how to position yourself for a rewarding career in public service.",
+        "careerRelevance": "This event provides valuable insights into a career path in the public sector, helping you explore options and develop the skills needed to succeed in government and policy-related roles.",
+        "isMustAttend": false,
+        "similarity": 0.1847
+      },
+      "position": {
+        "x": 1600,
+        "y": 850
+      },
+      "style": {
+        "background": "white",
+        "border": "2px solid #cbd5e0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "stage-specialization",
+      "type": "default",
+      "data": {
+        "label": "Specialization",
+        "description": "Dive deeper into your area of interest, such as LLMs, multimodal models, or AI safety. Participate in research projects, reading groups, and conferences to gain specialized knowledge and experience.",
+        "type": "stage",
+        "stageIndex": 4,
+        "totalStages": 5
+      },
+      "position": {
+        "x": 2100,
+        "y": 100
+      },
+      "style": {
+        "background": "#f7fafc",
+        "border": "2px solid #e2e8f0",
+        "borderRadius": "8px",
+        "padding": "15px",
+        "minWidth": 400,
+        "fontSize": "14px"
+      }
+    },
+    {
+      "id": "event-30",
+      "type": "default",
+      "data": {
+        "label": "AI Safety Technical Reading Group - Control",
+        "type": "event",
+        "eventId": 30,
+        "category": "Reading Group",
+        "description": "Dive into the latest research on AI safety and control systems in this technical reading group. Discuss cutting-edge papers and explore the challenges of ensuring advanced AI systems remain aligned with human values.",
+        "startDate": "Dec 03, 2025 05:00 PM",
+        "endDate": "Dec 03, 2025 07:00 PM",
+        "tags": [
+          "AI",
+          "machine learning",
+          "artificial intelligence",
+          "control systems",
+          "safety",
+          "research",
+          "technical reading"
+        ],
+        "skills": [
+          "critical analysis of technical papers",
+          "research synthesis and discussion",
+          "understanding AI safety and control challenges",
+          "staying up-to-date with the latest AI research"
+        ],
+        "whyAttend": "Gain insights into the forefront of AI safety research, network with like-minded peers, and develop critical thinking skills that are highly valued in technical fields. This is an excellent opportunity to explore the societal implications of advanced AI systems and contribute to ensuring their safe and ethical deployment.",
+        "careerRelevance": "This event will help students develop essential skills for careers in AI research, development, and policy. Engaging with the latest technical literature and discussions will prepare students for graduate studies or industry roles in the AI field.",
+        "isMustAttend": true,
+        "similarity": 0.3235
+      },
+      "position": {
+        "x": 2100,
+        "y": 250
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-16",
+      "type": "default",
+      "data": {
+        "label": "AI Safety Technical Reading Group - Scalable Oversight",
+        "type": "event",
+        "eventId": 16,
+        "category": "Reading Group",
+        "description": "Explore the latest research and techniques in AI safety and scalable oversight. Discuss technical papers and engage with experts in this critical area of AI development.",
+        "startDate": "Nov 19, 2025 05:00 PM",
+        "endDate": "Nov 19, 2025 07:00 PM",
+        "tags": [
+          "AI safety",
+          "machine learning",
+          "technical reading",
+          "research",
+          "oversight"
+        ],
+        "skills": [
+          "critical analysis of technical papers",
+          "understanding AI safety challenges",
+          "engaging in interdisciplinary discussions",
+          "staying up-to-date with the latest AI research"
+        ],
+        "whyAttend": "Gain insights into the cutting edge of AI safety research, network with like-minded peers and experts, and develop skills that are highly valuable in the tech industry and beyond.",
+        "careerRelevance": "This event provides an opportunity for students to deepen their understanding of AI safety, a rapidly growing field with significant career prospects in research, technology, and policy development.",
+        "isMustAttend": false,
+        "similarity": 0.3199
+      },
+      "position": {
+        "x": 2100,
+        "y": 450
+      },
+      "style": {
+        "background": "white",
+        "border": "2px solid #cbd5e0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-32",
+      "type": "default",
+      "data": {
+        "label": "AI Safety Technical Reading Group - Constitutional AI",
+        "type": "event",
+        "eventId": 32,
+        "category": "Reading Group",
+        "description": "Join the AI Safety Technical Reading Group to discuss the latest research and developments in Constitutional AI, a novel approach to AI alignment that aims to create AI systems with robust and stable goals aligned with human values.",
+        "startDate": "Dec 17, 2025 05:00 PM",
+        "endDate": "Dec 17, 2025 07:00 PM",
+        "tags": [
+          "AI",
+          "machine learning",
+          "artificial intelligence",
+          "research",
+          "reading group",
+          "technical",
+          "constitutional AI"
+        ],
+        "skills": [
+          "critical analysis of technical AI research",
+          "understanding of AI safety and alignment concepts",
+          "engaging in academic discussions on emerging AI topics",
+          "networking with peers interested in AI"
+        ],
+        "whyAttend": "This is an excellent opportunity to dive deep into the technical aspects of Constitutional AI, engage in thought-provoking discussions with your peers, and build connections with others who share your interest in the responsible development of AI systems.",
+        "careerRelevance": "Attending this event will help UBC students stay up-to-date with the latest developments in AI safety and alignment, a rapidly growing field with significant career opportunities in research, industry, and policy.",
+        "isMustAttend": true,
+        "similarity": 0.3089
+      },
+      "position": {
+        "x": 2100,
+        "y": 650
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-29",
+      "type": "default",
+      "data": {
+        "label": "Getting the Most Out of Your Academic Experience: Designing Your Grad School/Career Strategy",
+        "type": "event",
+        "eventId": 29,
+        "category": "Workshop",
+        "description": "Explore strategies to maximize your academic experience and design a personalized plan for graduate school or your career path. Gain insights from experts on navigating the next steps after your undergraduate degree.",
+        "startDate": "Dec 03, 2025 12:00 AM",
+        "endDate": null,
+        "tags": [
+          "graduate school",
+          "career planning",
+          "academic success",
+          "professional development",
+          "networking"
+        ],
+        "skills": [
+          "goal-setting",
+          "decision-making",
+          "networking",
+          "research skills",
+          "self-reflection"
+        ],
+        "whyAttend": "Attend this workshop to gain valuable insights, tools, and connections to design a fulfilling academic and professional path. Leave with a personalized plan to make the most of your time at UBC and beyond.",
+        "careerRelevance": "This workshop will help you develop a clear strategy to transition from your undergraduate degree to the next stage, whether that's graduate school or launching your career.",
+        "isMustAttend": false,
+        "similarity": 0.274
+      },
+      "position": {
+        "x": 2100,
+        "y": 850
+      },
+      "style": {
+        "background": "white",
+        "border": "2px solid #cbd5e0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "stage-goal_achievement",
+      "type": "default",
+      "data": {
+        "label": "Goal Achievement",
+        "description": "Prepare for your dream career by polishing your portfolio, practicing technical interviews, and exploring internship or research opportunities. Attend workshops, info sessions, and thesis defenses to gain insights into the industry and academic paths.",
+        "type": "stage",
+        "stageIndex": 5,
+        "totalStages": 5
+      },
+      "position": {
+        "x": 2600,
+        "y": 100
+      },
+      "style": {
+        "background": "#f7fafc",
+        "border": "2px solid #e2e8f0",
+        "borderRadius": "8px",
+        "padding": "15px",
+        "minWidth": 400,
+        "fontSize": "14px"
+      }
+    },
+    {
+      "id": "event-29",
+      "type": "default",
+      "data": {
+        "label": "Getting the Most Out of Your Academic Experience: Designing Your Grad School/Career Strategy",
+        "type": "event",
+        "eventId": 29,
+        "category": "Workshop",
+        "description": "Explore strategies to maximize your academic experience and design a personalized plan for graduate school or your career path. Gain insights from experts on navigating the next steps after your undergraduate degree.",
+        "startDate": "Dec 03, 2025 12:00 AM",
+        "endDate": null,
+        "tags": [
+          "graduate school",
+          "career planning",
+          "academic success",
+          "professional development",
+          "networking"
+        ],
+        "skills": [
+          "goal-setting",
+          "decision-making",
+          "networking",
+          "research skills",
+          "self-reflection"
+        ],
+        "whyAttend": "Attend this workshop to gain valuable insights, tools, and connections to design a fulfilling academic and professional path. Leave with a personalized plan to make the most of your time at UBC and beyond.",
+        "careerRelevance": "This workshop will help you develop a clear strategy to transition from your undergraduate degree to the next stage, whether that's graduate school or launching your career.",
+        "isMustAttend": true,
+        "similarity": 0.274
+      },
+      "position": {
+        "x": 2600,
+        "y": 250
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-31",
+      "type": "default",
+      "data": {
+        "label": "PhD Thesis Defence - Chenwei Zhang",
+        "type": "event",
+        "eventId": 31,
+        "category": "Defense",
+        "description": "Chenwei Zhang will be defending their PhD thesis, which explores cutting-edge research in their field. This is an opportunity for the UBC community to engage with the latest advancements and findings from this doctoral project.",
+        "startDate": "Dec 15, 2025 09:30 AM",
+        "endDate": "Dec 15, 2025 01:00 PM",
+        "tags": [
+          "PhD",
+          "thesis defense",
+          "research",
+          "academic writing",
+          "public speaking",
+          "graduate studies"
+        ],
+        "skills": [
+          "critical analysis",
+          "research presentation",
+          "academic discourse",
+          "defending research findings"
+        ],
+        "whyAttend": "This is a chance to engage with groundbreaking research, support a fellow graduate student, and gain valuable experience in academic discourse and presentation. Attendees will have the opportunity to ask questions and provide feedback that could shape the final thesis.",
+        "careerRelevance": "Attending this thesis defense will provide valuable insights into the research process and help graduate students prepare for their own future defenses. It also offers networking opportunities with peers and faculty in the field.",
+        "isMustAttend": true,
+        "similarity": 0.2505
+      },
+      "position": {
+        "x": 2600,
+        "y": 450
+      },
+      "style": {
+        "background": "#fef5e7",
+        "border": "2px solid #f39c12",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-36",
+      "type": "default",
+      "data": {
+        "label": "MSc Essay Presentation - Jason Hall",
+        "type": "event",
+        "eventId": 36,
+        "category": "Presentation",
+        "description": "Jason Hall, an MSc student, will be presenting their research essay. This is an opportunity to learn about their work, ask questions, and engage with their findings.",
+        "startDate": "Sep 26, 2025 11:00 AM",
+        "endDate": "Sep 26, 2025 12:00 PM",
+        "tags": [
+          "research presentation",
+          "graduate studies",
+          "academic writing",
+          "research skills",
+          "public speaking"
+        ],
+        "skills": [
+          "public speaking",
+          "research presentation",
+          "academic writing",
+          "critical thinking",
+          "Q&A skills"
+        ],
+        "whyAttend": "This is a chance to support a fellow graduate student, learn about their work, and gain insights that could be applicable to your own research or academic pursuits. Attending can also help build your network and foster connections within the graduate student community.",
+        "careerRelevance": "Attending this event can help graduate students develop essential skills for their academic and professional careers, such as effectively communicating research findings and engaging in scholarly discussions.",
+        "isMustAttend": false,
+        "similarity": 0.2373
+      },
+      "position": {
+        "x": 2600,
+        "y": 650
+      },
+      "style": {
+        "background": "white",
+        "border": "2px solid #cbd5e0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "event-7",
+      "type": "default",
+      "data": {
+        "label": "Doctoral Oral Defence - Rohit Murali",
+        "type": "event",
+        "eventId": 7,
+        "category": "Defense",
+        "description": "Rohit Murali will be defending their doctoral thesis, presenting their original research and findings to a panel of experts. This is an opportunity for the UBC community to engage with cutting-edge scholarship and support a fellow student on their academic journey.",
+        "startDate": "Nov 13, 2025 12:30 PM",
+        "endDate": "Nov 13, 2025 03:30 PM",
+        "tags": [
+          "doctoral defense",
+          "research presentation",
+          "academic excellence",
+          "graduate studies",
+          "scholarly communication"
+        ],
+        "skills": [
+          "public speaking",
+          "research presentation",
+          "critical thinking",
+          "academic writing",
+          "defending original work"
+        ],
+        "whyAttend": "This is an excellent opportunity to support a fellow UBC student, engage with innovative research, and learn from experts in the field. Attendees will gain a deeper understanding of the doctoral process and be inspired by the culmination of years of dedicated scholarly work.",
+        "careerRelevance": "Attending this doctoral defense will provide valuable insights into the research process, help develop essential academic and communication skills, and foster connections within the UBC research community.",
+        "isMustAttend": false,
+        "similarity": 0.201
+      },
+      "position": {
+        "x": 2600,
+        "y": 850
+      },
+      "style": {
+        "background": "white",
+        "border": "2px solid #cbd5e0",
+        "borderRadius": "8px",
+        "padding": "12px",
+        "width": 350,
+        "fontSize": "12px"
+      }
+    },
+    {
+      "id": "user-goal",
+      "type": "output",
+      "data": {
+        "label": "Goal Achievement",
+        "type": "goal",
+        "goal": "Ryan’s ultimate goal is to become a Machine Learning Engineer / AI Research Engineer working on real-world applications of LLMs and multimodal models.\r\n\r\nHe wants to focus specifically on:\r\n\r\nBuilding intelligent agents that can automate workflows and reason about complex tasks\r\n\r\nDeveloping RAG + vector search systems at scale\r\n\r\nTraining or fine-tuning custom models using PyTorch or JAX\r\n\r\nParticipating in research projects under UBC NLP/ML labs\r\n\r\nLanding a top-tier internship at companies like OpenAI, Apple, Amazon, or DeepMind\r\n\r\nBuilding a portfolio of highly polished AI apps (chatbots, productivity tools, research-oriented tools)\r\n\r\nHe hopes to graduate with:\r\n\r\nMultiple hackathon and coding project wins\r\n\r\nContributions to open-source AI repos\r\n\r\nOne undergraduate research paper or poster\r\n\r\nStrong interview prep (DSA + system design)\r\n\r\nExperience deploying cloud-based ML solutions (AWS, Docker, CI/CD)\r\n\r\nLong-term, he aims to push into ML research, specializing in:\r\n\r\nLLM alignment\r\n\r\nAgent systems\r\n\r\nRetrieval and embedding optimization\r\n\r\nEfficient compute (FlashAttention, quantization, distillation)",
+        "timeline": "First goal: build 3 standout ML projects within 6 months  Next: join a research group or internship by next summer  Graduate with research + large industry experience"
+      },
+      "position": {
+        "x": 3100,
+        "y": 300
+      },
+      "style": {
+        "background": "#48bb78",
+        "color": "white",
+        "border": "2px solid #38a169",
+        "borderRadius": "12px",
+        "padding": "20px",
+        "width": 250
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "user-start->stage-foundation_building",
+      "source": "user-start",
+      "target": "stage-foundation_building",
+      "type": "smoothstep",
+      "animated": true,
+      "style": {
+        "stroke": "#667eea",
+        "strokeWidth": 2
+      },
+      "label": "Begin Journey"
+    },
+    {
+      "id": "stage-foundation_building->event-30",
+      "source": "stage-foundation_building",
+      "target": "event-30",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-foundation_building->event-16",
+      "source": "stage-foundation_building",
+      "target": "event-16",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-foundation_building->event-32",
+      "source": "stage-foundation_building",
+      "target": "event-32",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#cbd5e0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "id": "stage-foundation_building->event-35",
+      "source": "stage-foundation_building",
+      "target": "event-35",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-foundation_building->event-17",
+      "source": "stage-foundation_building",
+      "target": "event-17",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#cbd5e0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "id": "stage-skill_development->event-19",
+      "source": "stage-skill_development",
+      "target": "event-19",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-skill_development->event-8",
+      "source": "stage-skill_development",
+      "target": "event-8",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-skill_development->event-1",
+      "source": "stage-skill_development",
+      "target": "event-1",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#cbd5e0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "id": "stage-networking->event-3",
+      "source": "stage-networking",
+      "target": "event-3",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-networking->event-14",
+      "source": "stage-networking",
+      "target": "event-14",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-networking->event-13",
+      "source": "stage-networking",
+      "target": "event-13",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#cbd5e0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "id": "stage-networking->event-18",
+      "source": "stage-networking",
+      "target": "event-18",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#cbd5e0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "id": "stage-specialization->event-30",
+      "source": "stage-specialization",
+      "target": "event-30",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-specialization->event-16",
+      "source": "stage-specialization",
+      "target": "event-16",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#cbd5e0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "id": "stage-specialization->event-32",
+      "source": "stage-specialization",
+      "target": "event-32",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-specialization->event-29",
+      "source": "stage-specialization",
+      "target": "event-29",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#cbd5e0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "id": "stage-goal_achievement->event-29",
+      "source": "stage-goal_achievement",
+      "target": "event-29",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-goal_achievement->event-31",
+      "source": "stage-goal_achievement",
+      "target": "event-31",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#f39c12",
+        "strokeWidth": 2
+      }
+    },
+    {
+      "id": "stage-goal_achievement->event-36",
+      "source": "stage-goal_achievement",
+      "target": "event-36",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#cbd5e0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "id": "stage-goal_achievement->event-7",
+      "source": "stage-goal_achievement",
+      "target": "event-7",
+      "type": "smoothstep",
+      "style": {
+        "stroke": "#cbd5e0",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "id": "stage-foundation_building->stage-skill_development",
+      "source": "stage-foundation_building",
+      "target": "stage-skill_development",
+      "type": "smoothstep",
+      "animated": true,
+      "label": "Build upon foundational knowledge to develop specialized skills",
+      "style": {
+        "stroke": "#48bb78",
+        "strokeWidth": 2.5
+      },
+      "labelStyle": {
+        "fill": "#48bb78",
+        "fontWeight": 600
+      }
+    },
+    {
+      "id": "stage-skill_development->stage-networking",
+      "source": "stage-skill_development",
+      "target": "stage-networking",
+      "type": "smoothstep",
+      "animated": true,
+      "label": "Showcase your skills and connect with potential employers",
+      "style": {
+        "stroke": "#48bb78",
+        "strokeWidth": 2.5
+      },
+      "labelStyle": {
+        "fill": "#48bb78",
+        "fontWeight": 600
+      }
+    },
+    {
+      "id": "stage-networking->stage-specialization",
+      "source": "stage-networking",
+      "target": "stage-specialization",
+      "type": "smoothstep",
+      "animated": true,
+      "label": "Leverage your network to explore areas of specialization",
+      "style": {
+        "stroke": "#48bb78",
+        "strokeWidth": 2.5
+      },
+      "labelStyle": {
+        "fill": "#48bb78",
+        "fontWeight": 600
+      }
+    },
+    {
+      "id": "stage-specialization->stage-goal_achievement",
+      "source": "stage-specialization",
+      "target": "stage-goal_achievement",
+      "type": "smoothstep",
+      "animated": true,
+      "label": "Apply specialized knowledge to achieve your career goals",
+      "style": {
+        "stroke": "#48bb78",
+        "strokeWidth": 2.5
+      },
+      "labelStyle": {
+        "fill": "#48bb78",
+        "fontWeight": 600
+      }
+    },
+    {
+      "id": "stage-goal_achievement->user-goal",
+      "source": "stage-goal_achievement",
+      "target": "user-goal",
+      "type": "smoothstep",
+      "animated": true,
+      "style": {
+        "stroke": "#48bb78",
+        "strokeWidth": 2
+      },
+      "label": "Achieve Goal"
+    }
+  ],
+  "metadata": {
+    "totalStages": 5,
+    "totalEvents": 20,
+    "userProfile": {
+      "user_id": "c002d160a44d",
+      "name": "Ryan Tran",
+      "faculty": "Computer Science (BSc)",
+      "year": "2",
+      "interests": "Artificial Intelligence & Machine Learning: Loves experimenting with LLMs, transformers, RAG systems, and reinforcement learning. Constantly recreates small research papers on Kaggle or Colab.\r\n\r\nSoftware Engineering: Enjoys building scalable full-stack web apps using React, Node.js, Express, and Supabase. Has built several personal projects like a task automation bot and personal note indexer.\r\n\r\nCompetitive Programming: Practices LeetCode, Codeforces, and ICPC problems daily. Passionate about algorithm design and data structures.\r\n\r\nCloud Computing: Curious about AWS, Kubernetes, serverless architectures, CI/CD pipelines, and infrastructure automation.\r\n\r\nSystems Programming: Interested in C++, Rust, OS design, and performance optimization. Reads blog posts about compilers, memory management, and backend architecture.\r\n\r\nHackathons: Regular participant in UBC hackathons, nwHacks, and global online hackathons. Loves rapid prototyping and collaborating with other engineers.\r\n\r\nTech Community: Active member of UBC CSSS events, tech meetups, and startup pitch nights. Enjoys mentoring first-years on how to start learning CS.\r\n\r\nHobbies:\r\n\r\nCreating devlogs on YouTube or Medium\r\n\r\nPlaying piano / producing music\r\n\r\nGaming (Valorant, Elden Ring)\r\n\r\nWorking out to stay focused",
+      "end_goal": "Ryan’s ultimate goal is to become a Machine Learning Engineer / AI Research Engineer working on real-world applications of LLMs and multimodal models.\r\n\r\nHe wants to focus specifically on:\r\n\r\nBuilding intelligent agents that can automate workflows and reason about complex tasks\r\n\r\nDeveloping RAG + vector search systems at scale\r\n\r\nTraining or fine-tuning custom models using PyTorch or JAX\r\n\r\nParticipating in research projects under UBC NLP/ML labs\r\n\r\nLanding a top-tier internship at companies like OpenAI, Apple, Amazon, or DeepMind\r\n\r\nBuilding a portfolio of highly polished AI apps (chatbots, productivity tools, research-oriented tools)\r\n\r\nHe hopes to graduate with:\r\n\r\nMultiple hackathon and coding project wins\r\n\r\nContributions to open-source AI repos\r\n\r\nOne undergraduate research paper or poster\r\n\r\nStrong interview prep (DSA + system design)\r\n\r\nExperience deploying cloud-based ML solutions (AWS, Docker, CI/CD)\r\n\r\nLong-term, he aims to push into ML research, specializing in:\r\n\r\nLLM alignment\r\n\r\nAgent systems\r\n\r\nRetrieval and embedding optimization\r\n\r\nEfficient compute (FlashAttention, quantization, distillation)",
+      "timeline": "First goal: build 3 standout ML projects within 6 months  Next: join a research group or internship by next summer  Graduate with research + large industry experience"
+    }
+  }
+}

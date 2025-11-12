@@ -1,6 +1,7 @@
 import pymysql
 from pymysql.cursors import DictCursor
 import os
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -39,7 +40,21 @@ def show_users():
                 print(f"Timeline: {row['timeline']}")
                 print(f"Resume key: {row['resume_key']}")
                 print(f"Created at: {row['created_at']}")
-                print("-" * 50)
+                print(f"Updated at: {row['updated_at']}")
+
+                # Handle embedding JSON safely
+                embedding = row.get("embedding")
+                if embedding:
+                    try:
+                        parsed = json.loads(embedding) if isinstance(embedding, str) else embedding
+                        preview = json.dumps(parsed)[:200]  # Truncate for readability
+                        print(f"Embedding (preview): {preview}...")
+                    except Exception:
+                        print(f"Embedding: {embedding}")
+                else:
+                    print("Embedding: None")
+
+                print("-" * 60)
     except Exception as e:
         print(f"Error reading users table: {e}")
     finally:

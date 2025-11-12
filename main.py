@@ -10,6 +10,10 @@ from botocore.exceptions import BotoCoreError, NoCredentialsError, ClientError
 
 import pymysql
 from pymysql.cursors import DictCursor
+import json
+import numpy as np
+
+from career_graph import build_career_graph_for_user
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -54,6 +58,7 @@ def create_users_table():
                     end_goal TEXT NOT NULL,
                     timeline VARCHAR(255),
                     resume_key VARCHAR(500),
+                    embedding JSON,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
                 )
@@ -63,13 +68,17 @@ def insert_user(user_data: dict):
     """Insert a new user into the database"""
     with get_db_connection() as conn:
         with conn.cursor() as cur:
+            # Convert embedding list to JSON string if it exists
+            if 'embedding' in user_data and user_data['embedding']:
+                user_data['embedding'] = json.dumps(user_data['embedding'])
+            
             cur.execute("""
                 INSERT INTO users (
                     user_id, name, email, year, faculty, 
-                    interests, end_goal, timeline, resume_key
+                    interests, end_goal, timeline, resume_key, embedding
                 ) VALUES (
                     %(user_id)s, %(name)s, %(email)s, %(year)s, %(faculty)s,
-                    %(interests)s, %(end_goal)s, %(timeline)s, %(resume_key)s
+                    %(interests)s, %(end_goal)s, %(timeline)s, %(resume_key)s, %(embedding)s
                 )
             """, user_data)
             return user_data['user_id']
@@ -86,7 +95,81 @@ def get_user_by_id(user_id: str):
     with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM users WHERE user_id = %s", (user_id,))
-            return cur.fetchone()
+            user = cur.fetchone()
+            # Parse embedding JSON back to list if it exists
+            if user and user.get('embedding'):
+                user['embedding'] = json.loads(user['embedding'])
+            return user
+
+def get_all_users_with_embeddings():
+    """Get all users with their embeddings for similarity search"""
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT user_id, name, email, faculty, interests, end_goal, embedding FROM users WHERE embedding IS NOT NULL")
+            users = cur.fetchall()
+            # Parse embedding JSON for each user
+            for user in users:
+                if user.get('embedding'):
+                    user['embedding'] = json.loads(user['embedding'])
+            return users
+
+# ---------- Embedding Helpers ----------
+
+def get_bedrock_client():
+    """Initialize Bedrock Runtime client"""
+    return boto3.client(
+        service_name='bedrock-runtime',
+        region_name=os.getenv("AWS_REGION", "us-west-2"),
+        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
+    )
+
+def create_user_embedding(user_data: dict) -> list:
+    """
+    Create an embedding from user data using Amazon Titan Embeddings
+    Titan Text Embeddings V2 produces 1024-dimensional embeddings
+    """
+    # Combine user information into a single text
+    text_to_embed = f"""
+    Name: {user_data['name']}
+    Faculty: {user_data['faculty']}
+    Year: {user_data['year']}
+    Interests: {user_data['interests']}
+    Goal: {user_data['end_goal']}
+    Timeline: {user_data.get('timeline', 'Not specified')}
+    """.strip()
+    
+    try:
+        bedrock = get_bedrock_client()
+        
+        # Prepare request body for Titan Embeddings V2
+        request_body = json.dumps({
+            "inputText": text_to_embed
+        })
+        
+        # Invoke the model
+        response = bedrock.invoke_model(
+            modelId="amazon.titan-embed-text-v2:0",  # Titan Text Embeddings V2 (1024 dimensions)
+            body=request_body,
+            contentType="application/json",
+            accept="application/json"
+        )
+        
+        # Parse response
+        response_body = json.loads(response['body'].read())
+        embedding = response_body['embedding']
+        
+        return embedding
+        
+    except Exception as e:
+        print(f"✗ Failed to create embedding: {str(e)}")
+        raise
+
+def cosine_similarity(embedding1: list, embedding2: list) -> float:
+    """Calculate cosine similarity between two embeddings"""
+    vec1 = np.array(embedding1)
+    vec2 = np.array(embedding2)
+    return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
 
 # ---------- Lifespan Event Handler ----------
 
@@ -241,8 +324,18 @@ async def register_user(
         "interests": interests,
         "end_goal": end_goal,
         "timeline": timeline if timeline else None,
-        "resume_key": resume_key
+        "resume_key": resume_key,
+        "embedding": None
     }
+    
+    # Create embedding from user data
+    try:
+        embedding = create_user_embedding(user_data)
+        user_data["embedding"] = embedding
+        print(f"✓ Created embedding with {len(embedding)} dimensions")
+    except Exception as e:
+        print(f"⚠ Warning: Failed to create embedding: {str(e)}")
+        # Continue without embedding - don't fail the registration
     
     # Save to database
     try:
@@ -256,7 +349,8 @@ async def register_user(
             "message": "User registered successfully!",
             "user_id": user_id,
             "resume_uploaded": resume_key is not None,
-            "resume_key": resume_key
+            "resume_key": resume_key,
+            "embedding_created": user_data["embedding"] is not None
         }
     except Exception as e:
         print(f"✗ Failed to save user to database: {str(e)}")
@@ -339,3 +433,61 @@ def get_resume_download_url(user_id: str, expires_in: int = 3600):
             status_code=500,
             detail=f"Failed to generate download URL: {str(e)}"
         )
+
+@app.post("/search/similar-users")
+async def search_similar_users(
+    query: str = Form(...),
+    top_k: int = Form(5)
+):
+    """
+    Find similar users based on a text query using embeddings
+    Returns the top_k most similar users
+    """
+    try:
+        # Create embedding for the search query
+        query_data = {"name": "", "faculty": "", "year": "", "interests": query, "end_goal": query}
+        query_embedding = create_user_embedding(query_data)
+        
+        # Get all users with embeddings
+        users = get_all_users_with_embeddings()
+        
+        if not users:
+            return {
+                "message": "No users with embeddings found",
+                "results": []
+            }
+        
+        # Calculate similarity scores
+        results = []
+        for user in users:
+            if user.get('embedding'):
+                similarity = cosine_similarity(query_embedding, user['embedding'])
+                results.append({
+                    "user_id": user['user_id'],
+                    "name": user['name'],
+                    "email": user['email'],
+                    "faculty": user['faculty'],
+                    "interests": user['interests'],
+                    "end_goal": user['end_goal'],
+                    "similarity_score": float(similarity)
+                })
+        
+        # Sort by similarity (highest first) and get top_k
+        results.sort(key=lambda x: x['similarity_score'], reverse=True)
+        top_results = results[:top_k]
+        
+        return {
+            "query": query,
+            "total_users_searched": len(users),
+            "results": top_results
+        }
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Search failed: {str(e)}"
+        )
+        
+@app.get("/users/{user_id}/career-graph")
+def get_career_graph(user_id: str):
+    return build_career_graph_for_user(user_id)

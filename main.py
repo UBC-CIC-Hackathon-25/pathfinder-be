@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Form, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional
+from typing import Optional, Dict, Any
 from contextlib import asynccontextmanager, contextmanager
 import os
 import uuid
@@ -12,11 +12,13 @@ import pymysql
 from pymysql.cursors import DictCursor
 import json
 import numpy as np
+from pydantic import BaseModel
 
 from career_graph import build_career_graph_for_user
 
 from dotenv import load_dotenv
 load_dotenv()
+BEDROCK_MODEL_ID = os.getenv("BEDROCK_MODEL_ID", "anthropic.claude-3-sonnet-20240229-v1:0")
 
 # ---------- Database Helpers ----------
 
@@ -42,6 +44,21 @@ def get_db_connection():
     finally:
         if conn:
             conn.close()
+
+def parse_json_field(value):
+    """Convert JSON columns from strings/bytes to native Python objects."""
+    if value is None:
+        return None
+    if isinstance(value, (dict, list)):
+        return value
+    if isinstance(value, (bytes, bytearray)):
+        value = value.decode()
+    if isinstance(value, str):
+        try:
+            return json.loads(value)
+        except json.JSONDecodeError:
+            return value
+    return value
 
 def create_users_table():
     """Create users table if it doesn't exist"""
@@ -97,10 +114,28 @@ def get_user_by_id(user_id: str):
         with conn.cursor() as cur:
             cur.execute("SELECT * FROM users WHERE user_id = %s", (user_id,))
             user = cur.fetchone()
-            # Parse embedding JSON back to list if it exists
-            if user and user.get('embedding'):
-                user['embedding'] = json.loads(user['embedding'])
+            # Parse JSON columns back to Python objects
+            if user:
+                embedding = parse_json_field(user.get('embedding'))
+                career_path = parse_json_field(user.get('career_path'))
+                if embedding is not None:
+                    user['embedding'] = embedding
+                if career_path is not None:
+                    user['career_path'] = career_path
             return user
+        
+def update_user_career_path(user_id: str, career_path: Dict[str, Any]):
+    """Persist an updated career path for the user."""
+    if career_path is None:
+        raise ValueError("career_path cannot be None")
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                "UPDATE users SET career_path = %s WHERE user_id = %s",
+                (json.dumps(career_path), user_id)
+            )
+            if cur.rowcount == 0:
+                raise ValueError(f"User {user_id} not found")
 
 def get_all_users_with_embeddings():
     """Get all users with their embeddings for similarity search"""
@@ -111,7 +146,9 @@ def get_all_users_with_embeddings():
             # Parse embedding JSON for each user
             for user in users:
                 if user.get('embedding'):
-                    user['embedding'] = json.loads(user['embedding'])
+                    embedding = parse_json_field(user['embedding'])
+                    if embedding is not None:
+                        user['embedding'] = embedding
             return users
 
 # ---------- Embedding Helpers ----------
@@ -171,6 +208,95 @@ def cosine_similarity(embedding1: list, embedding2: list) -> float:
     vec1 = np.array(embedding1)
     vec2 = np.array(embedding2)
     return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
+
+# ---------- Career Path Chat Helpers ----------
+
+CHAT_SYSTEM_PROMPT = """
+You are PathFinder UBC, an AI assistant that edits existing student career roadmaps.
+
+You will be given JSON with:
+- student_profile: name, faculty, year, interests, end_goal, timeline.
+- current_career_path: a React Flow compatible graph object with nodes, edges, and metadata.
+- user_message: natural language guidance from the student describing desired changes.
+
+Update the roadmap so it reflects the user's latest intent.
+
+Rules:
+1. Always respond with valid JSON (no markdown) containing the keys: nodes, edges, metadata.
+2. Preserve React Flow structure and reuse existing node/edge IDs whenever possible. Only add new IDs if needed and keep them descriptive.
+3. Do not invent new event_ids that are not already present in the current_career_path. Reorder, relabel, or reprioritize existing events/stages instead.
+4. Ensure metadata stays consistent (update counts or add an "explanation" note when changes are made).
+5. If a request cannot be satisfied exactly, make the closest reasonable adjustment and explain the limitation inside metadata.explanation.
+""".strip()
+
+def build_chat_update_payload(user: Dict[str, Any], message: str) -> str:
+    """Serialize the data the LLM needs to understand the requested change."""
+    payload = {
+        "student_profile": {
+            "name": user.get("name"),
+            "faculty": user.get("faculty"),
+            "year": user.get("year"),
+            "interests": user.get("interests"),
+            "end_goal": user.get("end_goal"),
+            "timeline": user.get("timeline")
+        },
+        "current_career_path": user.get("career_path"),
+        "user_message": message
+    }
+    return json.dumps(payload, ensure_ascii=False, indent=2)
+
+def extract_bedrock_text_response(resp_body: Dict[str, Any]) -> str:
+    """Handle different Bedrock response payload formats and return the text."""
+    if "content" in resp_body:
+        text = ""
+        for block in resp_body["content"]:
+            if block.get("type") == "text":
+                text += block.get("text", "")
+        return text
+    if "outputText" in resp_body:
+        return resp_body["outputText"]
+    raise RuntimeError(f"Unexpected Bedrock response format: {resp_body}")
+
+def update_career_path_with_message(user: Dict[str, Any], message: str) -> Dict[str, Any]:
+    """
+    Use the existing career_path plus a free-form message to build a refreshed graph.
+    """
+    career_path = user.get("career_path")
+    if not career_path:
+        raise ValueError("User has no stored career_path to update")
+    
+    bedrock = get_bedrock_client()
+    request_body = json.dumps(
+        {
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": 2048,
+            "temperature": 0.2,
+            "system": CHAT_SYSTEM_PROMPT,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": build_chat_update_payload(user, message)
+                }
+            ]
+        }
+    )
+    
+    response = bedrock.invoke_model(
+        modelId=BEDROCK_MODEL_ID,
+        body=request_body,
+        contentType="application/json",
+        accept="application/json"
+    )
+    
+    resp_body = json.loads(response["body"].read())
+    text = extract_bedrock_text_response(resp_body)
+    
+    try:
+        updated_path = json.loads(text)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"LLM returned invalid JSON: {text}") from exc
+    
+    return updated_path
 
 # ---------- Lifespan Event Handler ----------
 
@@ -240,6 +366,10 @@ def upload_to_s3(file_content: bytes, filename: str, content_type: str, user_id:
         raise Exception(f"Failed to upload to S3: {str(e)}")
 
 # ---------- Routes ----------
+
+class ChatRequest(BaseModel):
+    user_id: str
+    message: str
 
 @app.post("/register")
 async def register_user(
@@ -488,8 +618,42 @@ async def search_similar_users(
             status_code=500,
             detail=f"Search failed: {str(e)}"
         )
+
+@app.post("/chat")
+async def chat_endpoint(payload: ChatRequest):
+    """Receive a chat message and refresh the stored career path for a user."""
+    cleaned_message = payload.message.strip()
+    if not cleaned_message:
+        raise HTTPException(status_code=400, detail="Message cannot be empty")
+    
+    try:
+        user = get_user_by_id(payload.user_id)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+    
+    try:
+        updated_career_path = update_career_path_with_message(user, cleaned_message)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except RuntimeError as e:
+        raise HTTPException(status_code=502, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to update career path: {str(e)}")
+    
+    try:
+        update_user_career_path(payload.user_id, updated_career_path)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save career path: {str(e)}")
+    
+    return {
+        "message": "Career path updated",
+        "career_path": updated_career_path
+    }
         
 @app.get("/users/{user_id}/career-graph")
 def get_career_graph(user_id: str):
     return build_career_graph_for_user(user_id)
-

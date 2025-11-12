@@ -331,13 +331,13 @@ def roadmap_to_react_flow(roadmap: Dict, profile: Dict, events_lookup: Dict[int,
     nodes: List[Dict] = []
     edges: List[Dict] = []
 
-    # Layout configuration for better spacing
+    # UPDATED Layout configuration for better spacing
     STAGE_WIDTH = 400
-    STAGE_X_SPACING = 500
-    EVENT_HEIGHT = 180
-    EVENT_Y_SPACING = 200
-    START_X = 100
-    START_Y = 300
+    STAGE_X_SPACING = 650       # Increased from 500
+    EVENT_Y_SPACING = 250        # Increased from 200
+    STAGE_EVENT_GAP = 200        # New - gap between stage and first event
+    START_X = 150                # Increased from 100
+    START_Y = 400                # Increased from 300
 
     # ============================================
     # 1. CREATE USER START NODE
@@ -427,7 +427,7 @@ def roadmap_to_react_flow(roadmap: Dict, profile: Dict, events_lookup: Dict[int,
             
             # Calculate event position (stacked vertically within stage column)
             event_x = stage_x
-            event_y = stage_y + 150 + (event_idx * EVENT_Y_SPACING)
+            event_y = stage_y + STAGE_EVENT_GAP + (event_idx * EVENT_Y_SPACING)  # UPDATED
             
             # Create event node with rich data
             nodes.append({

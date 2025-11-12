@@ -332,11 +332,13 @@ def rebuild_react_flow_from_roadmap(
     nodes = []
     edges = []
     
+    # UPDATED LAYOUT CONFIG - More spacing
     STAGE_WIDTH = 400
-    STAGE_X_SPACING = 500
-    EVENT_Y_SPACING = 200
-    START_X = 100
-    START_Y = 300
+    STAGE_X_SPACING = 650       # Increased from 500
+    EVENT_Y_SPACING = 250        # Increased from 200
+    STAGE_EVENT_GAP = 200        # Increased from 150
+    START_X = 150                # Increased from 100
+    START_Y = 400                # Increased from 300
     
     # User start node
     user_node_id = "user-start"
@@ -413,7 +415,7 @@ def rebuild_react_flow_from_roadmap(
             event_node_id = f"event-{event_id}"
             is_must_attend = event_id in must_attend
             event_x = stage_x
-            event_y = stage_y + 150 + (event_idx * EVENT_Y_SPACING)
+            event_y = stage_y + STAGE_EVENT_GAP + (event_idx * EVENT_Y_SPACING)  # Updated
             
             nodes.append({
                 "id": event_node_id,
@@ -1028,6 +1030,11 @@ async def chat_endpoint(payload: ChatRequest):
                 detail=f"Failed to generate initial career path: {str(e)}"
             )
     
+    # Store original stats for comparison
+    original_metadata = user["career_path"].get("metadata", {})
+    original_stages = original_metadata.get("totalStages", 0)
+    original_events = original_metadata.get("totalEvents", 0)
+    
     try:
         updated_career_path = update_career_path_with_message(user, cleaned_message)
     except ValueError as e:
@@ -1042,9 +1049,46 @@ async def chat_endpoint(payload: ChatRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save career path: {str(e)}")
     
+    # Generate helpful summary message
+    new_metadata = updated_career_path.get("metadata", {})
+    new_stages = new_metadata.get("totalStages", 0)
+    new_events = new_metadata.get("totalEvents", 0)
+    
+    # Calculate changes
+    stages_diff = new_stages - original_stages
+    events_diff = new_events - original_events
+    
+    # Build descriptive message
+    message_parts = ["Your career roadmap has been updated!"]
+    
+    if stages_diff > 0:
+        message_parts.append(f"Added {stages_diff} new stage{'s' if stages_diff != 1 else ''}.")
+    elif stages_diff < 0:
+        message_parts.append(f"Removed {abs(stages_diff)} stage{'s' if abs(stages_diff) != 1 else ''}.")
+    
+    if events_diff > 0:
+        message_parts.append(f"Added {events_diff} new event{'s' if events_diff != 1 else ''}.")
+    elif events_diff < 0:
+        message_parts.append(f"Removed {abs(events_diff)} event{'s' if abs(events_diff) != 1 else ''}.")
+    
+    if stages_diff == 0 and events_diff == 0:
+        message_parts.append("Events have been reorganized or reprioritized.")
+    
+    message_parts.append(f"Your roadmap now has {new_stages} stage{'s' if new_stages != 1 else ''} with {new_events} event{'s' if new_events != 1 else ''}.")
+    
+    summary_message = " ".join(message_parts)
+    
     return {
-        "message": "Career path updated",
-        "career_path": updated_career_path
+        "message": summary_message,
+        "career_path": updated_career_path,
+        "changes": {
+            "stages_added": max(0, stages_diff),
+            "stages_removed": max(0, -stages_diff),
+            "events_added": max(0, events_diff),
+            "events_removed": max(0, -events_diff),
+            "total_stages": new_stages,
+            "total_events": new_events
+        }
     }
 
 @app.get("/users/{user_id}/career-graph")

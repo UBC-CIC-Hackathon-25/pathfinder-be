@@ -59,6 +59,7 @@ def create_users_table():
                     timeline VARCHAR(255),
                     resume_key VARCHAR(500),
                     embedding JSON,
+                    career_path JSON,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
                 )
@@ -491,3 +492,4 @@ async def search_similar_users(
 @app.get("/users/{user_id}/career-graph")
 def get_career_graph(user_id: str):
     return build_career_graph_for_user(user_id)
+

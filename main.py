@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Form, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from contextlib import asynccontextmanager, contextmanager
 import os
 import uuid
@@ -257,18 +257,77 @@ def extract_roadmap_structure(career_path: Dict[str, Any]) -> Dict[str, Any]:
     
     return {"stages": stages, "edges": stage_edges}
 
+def get_available_events_for_user(user_id: str, k: int = 30, min_sim: float = 0.15) -> List[Dict]:
+    """
+    Fetch events similar to user profile (using same logic as career_graph.py)
+    This gives the chat context about what events are available
+    """
+    from career_graph import rag_retrieve_events_for_user
+    
+    events, _ = rag_retrieve_events_for_user(user_id, k=k, min_sim=min_sim)
+    
+    # Simplify event data for chat context
+    simplified_events = []
+    for ev in events:
+        simplified_events.append({
+            "event_id": ev["event_id"],
+            "title": ev["title"],
+            "category": ev.get("category"),
+            "tags": ev.get("tags", []),
+            "similarity": ev.get("similarity"),
+            "description_snippet": (ev.get("enriched_desc") or ev.get("description", ""))[:150]
+        })
+    
+    return simplified_events
+
+
 
 def rebuild_react_flow_from_roadmap(
     roadmap: Dict[str, Any], 
     profile: Dict[str, Any], 
     original_career_path: Dict[str, Any]
 ) -> Dict[str, Any]:
-    """Reconstruct full React Flow format from lightweight roadmap"""
+    """
+    Enhanced: Reconstructs React Flow and fetches data for any NEW events
+    """
+    # Get original event data
     original_events = {}
     for node in original_career_path.get("nodes", []):
         if node.get("data", {}).get("type") == "event":
             event_id = node["data"]["eventId"]
             original_events[event_id] = node["data"]
+    
+    # Collect all event IDs from roadmap
+    all_event_ids = set()
+    for stage in roadmap.get("stages", []):
+        all_event_ids.update(stage.get("event_ids", []))
+    
+    # Find new event IDs not in original
+    new_event_ids = all_event_ids - set(original_events.keys())
+    
+    # Fetch data for new events from database
+    if new_event_ids:
+        from career_graph import get_events_with_all_data
+        all_db_events = get_events_with_all_data()
+        
+        for db_event in all_db_events:
+            if db_event["event_id"] in new_event_ids:
+                # Format like React Flow event data
+                original_events[db_event["event_id"]] = {
+                    "label": db_event["title"],
+                    "type": "event",
+                    "eventId": db_event["event_id"],
+                    "category": db_event.get("category"),
+                    "description": db_event.get("enriched_desc") or db_event.get("description"),
+                    "startDate": db_event.get("start_dt_display"),
+                    "endDate": db_event.get("end_dt_display"),
+                    "tags": db_event.get("tags", []),
+                    "skills": db_event.get("skills_learned", []),
+                    "whyAttend": db_event.get("why_attend"),
+                    "careerRelevance": db_event.get("career_relevance"),
+                    "isMustAttend": False,
+                    "similarity": None  # Not calculated for new events
+                }
     
     nodes = []
     edges = []
@@ -346,8 +405,9 @@ def rebuild_react_flow_from_roadmap(
         must_attend = set(stage.get("must_attend_event_ids", []))
         
         for event_idx, event_id in enumerate(stage.get("event_ids", [])):
-            event_data = original_events.get(event_id, {})
+            event_data = original_events.get(event_id)
             if not event_data:
+                print(f"⚠ Warning: Event {event_id} not found in database or original path")
                 continue
             
             event_node_id = f"event-{event_id}"
@@ -443,14 +503,22 @@ def rebuild_react_flow_from_roadmap(
     }
 
 # ---------- Career Path Chat Helpers ----------
-
 CHAT_SYSTEM_PROMPT = """
 You are PathFinder UBC, an AI assistant that edits student career roadmaps.
 
 You will receive:
 - student_profile: name, faculty, year, interests, end_goal, timeline
 - current_roadmap: lightweight structure with stages and event_ids
+- available_events: pool of relevant events based on user's interests (with similarity scores)
 - user_message: requested changes
+
+Your task: Intelligently modify the roadmap based on the user's request.
+
+When the user asks to add/emphasize certain topics:
+1. Look at available_events for relevant matches
+2. Consider similarity scores (higher = more relevant to user)
+3. Add high-scoring events that match the user's intent
+4. Maintain logical stage progression
 
 Return ONLY a JSON object with this structure:
 {
@@ -474,18 +542,34 @@ Return ONLY a JSON object with this structure:
 
 Rules:
 1. Respond with ONLY valid JSON (no markdown, no explanations)
-2. DO NOT invent new event_ids - only reorder/emphasize existing ones
-3. To prioritize an event: add it to must_attend_event_ids
-4. To reorder events: change their position in event_ids array
-5. To add a stage: create new stage with existing event_ids
-6. To remove an event: remove it from event_ids array
-7. Keep stage IDs as lowercase with underscores (e.g., "foundation_building")
+2. When adding events: ONLY use event_ids from available_events list
+3. Prioritize events with higher similarity scores when relevant to user's request
+4. To emphasize existing events: add to must_attend_event_ids
+5. To reorder events: change their position in event_ids array
+6. To add a stage: create new stage with events from available_events
+7. To remove an event: remove it from event_ids array
+8. Keep stage IDs as lowercase with underscores (e.g., "foundation_building")
+9. When user asks for "more X" or "add Y": search available_events for matching categories/tags
+
+Examples:
+- User: "Add more AI workshops" → Look for events with tags ["AI", "machine learning"] in available_events
+- User: "Focus on networking" → Prioritize events with category "Networking" or tags ["networking"]
+- User: "Make this event a priority" → Add that event_id to must_attend_event_ids
 """.strip()
 
 def build_chat_update_payload(user: Dict[str, Any], message: str) -> str:
-    """Optimized payload - only sends semantic roadmap, not full React Flow"""
+    """
+    Enhanced payload - includes available events pool for context-aware suggestions
+    """
     career_path = user.get("career_path")
     roadmap = extract_roadmap_structure(career_path)
+    
+    # Fetch available events based on user's embedding
+    try:
+        available_events = get_available_events_for_user(user["user_id"], k=30, min_sim=0.15)
+    except Exception as e:
+        print(f"⚠ Warning: Could not fetch available events: {e}")
+        available_events = []
     
     payload = {
         "student_profile": {
@@ -497,6 +581,7 @@ def build_chat_update_payload(user: Dict[str, Any], message: str) -> str:
             "timeline": user.get("timeline")
         },
         "current_roadmap": roadmap,
+        "available_events": available_events,  # NEW: Context for smart suggestions
         "user_message": message
     }
     return json.dumps(payload, ensure_ascii=False, indent=2)
@@ -514,7 +599,12 @@ def extract_bedrock_text_response(resp_body: Dict[str, Any]) -> str:
     raise RuntimeError(f"Unexpected Bedrock response format: {resp_body}")
 
 def update_career_path_with_message(user: Dict[str, Any], message: str) -> Dict[str, Any]:
-    """Optimized: sends lightweight roadmap, reconstructs React Flow locally (~75% faster)"""
+    """
+    Enhanced: Context-aware updates using vector embeddings
+    - Fetches similar events from database based on user profile
+    - LLM can suggest relevant new events based on similarity scores
+    - ~75% faster than original approach
+    """
     career_path = user.get("career_path")
     if not career_path:
         raise ValueError("User has no stored career_path to update")
@@ -523,7 +613,7 @@ def update_career_path_with_message(user: Dict[str, Any], message: str) -> Dict[
     request_body = json.dumps(
         {
             "anthropic_version": "bedrock-2023-05-31",
-            "max_tokens": 2000,  # Reduced from 4096
+            "max_tokens": 2500,  # Slightly increased for available_events context
             "temperature": 0.2,
             "system": CHAT_SYSTEM_PROMPT,
             "messages": [
